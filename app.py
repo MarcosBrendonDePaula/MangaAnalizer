@@ -1,0 +1,256 @@
+import os.path
+import requests
+import time
+import matplotlib.pyplot as plt
+from bs4 import BeautifulSoup
+
+from MangasDatabase.DB import *
+
+Database = DB.getDB()
+headers = requests.utils.default_headers()
+headers.update(
+    {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
+    }
+)
+
+def syncLink(link=""):
+        session = requests.session()
+        temp = Database.findManga(url=link)
+        if temp == None:
+            success = False
+            sleepTime = 0
+            while not success:
+                try:
+                    if sleepTime>15:
+                        print("Forced:", link)
+                        success=True
+                        session = requests.session()
+                        break
+
+                    manga_page = session.get(link, headers=headers)
+
+                    Soup_manga = BeautifulSoup(manga_page.text, 'html.parser')
+                    image = Soup_manga.find(class_="img-thumbnail")['src']
+                    name = Soup_manga.find(class_="tamanho-bloco-perfil").findAll(class_="row")[0].find("h2").get_text()
+                    generos = ""
+                    for genero in Soup_manga.find_all(class_="media-heading")[1].find_all("a"):
+                        generos+="┴"+genero.get_text()
+                    
+                    sinopse = Soup_manga.find(class_="panel-body").get_text()
+                    print(link ,name , generos)
+                    manga = Manga(sinopse,generos,name,link,image)
+                    Database.addManga(manga)
+                    success = True
+                    return manga
+                except Exception as e:
+                    print("erro:" , e)
+                    print("Dromindo por:",sleepTime,"para: ",link)
+                    time.sleep(sleepTime)
+                    sleepTime += 5
+                    success = False
+                    pass
+        else:
+            return temp
+
+def getPages():
+    unionLink = "https://unionmangas.top/lista-mangas/a-z/{page}/*"
+    MaxPages = 269
+    ActualPage = 0
+    session = requests.session()
+    for it in range(ActualPage,MaxPages):
+        ActualPage = session.get(unionLink.format(page=it), headers=headers)
+        
+        Soup = BeautifulSoup(ActualPage.text, 'html.parser')
+        
+        Blocos_manga = Soup.findAll(class_="bloco-manga")
+        for ActualManga in Blocos_manga:
+            name = ActualManga.findAll('a')[1].get_text()
+            link = ActualManga.findAll('a')[1]['href']
+            temp = Database.findManga(name=name)
+            # Image Update
+            try:
+                if(temp.img == ""):
+                    image = ActualManga.find(class_="img-thumbnail")['src']
+                    print("ImageLink:",image)
+                    temp.img = image
+                    Database.update()
+            except:
+                print('erro ao obter imagem')
+                pass
+            if temp == None:
+                success = False
+                sleepTime = 0
+                while not success:
+                    try:
+                        if sleepTime>15:
+                            print("Forced:", link)
+                            success=True
+                            session = requests.session()
+                            break
+
+                        manga_page = session.get(link, headers=headers)
+                        print(manga_page.status_code)
+
+                        Soup_manga = BeautifulSoup(manga_page.text, 'html.parser')
+
+                        generos = ""
+                        for genero in Soup_manga.find_all(class_="media-heading")[1].find_all("a"):
+                            generos+="┴"+genero.get_text()
+                        
+                        sinopse = Soup_manga.find(class_="panel-body").get_text()
+                        print(link ,name , generos)
+                    
+                        Database.addManga(Manga(sinopse,generos,name,link))
+                        success = True
+                    except Exception as e:
+                        print("erro:" , e)
+                        print("Dromindo por:",sleepTime,"para: ",link)
+                        time.sleep(sleepTime)
+                        sleepTime += 5
+                        success = False
+                        pass
+        print(it)
+    pass
+
+def AnlizeTags() :
+    tagsCounter = {}
+    for manga in Database.MangaList:
+        for tag in manga.getTagsFlags():
+            if not tag == '':
+                if tagsCounter.get(tag) == None:
+                    tagsCounter[tag] = 1
+                else:
+                    tagsCounter[tag] += 1
+    name = []
+    size = []
+    for key in tagsCounter:
+        name.append(key)
+        size.append(tagsCounter[key])
+
+    print(tagsCounter)
+    # plt.barh(name, size)
+    #plt.bar(name, size)
+    #plt.pie(size, labels=name)
+    #plt.show()
+# print(len(Database.mapName))
+
+def LoadMymangas():
+    mangas = []
+    with open('MangasLidos.csv','r') as mymangas:
+        mangas = mymangas.readlines()
+        for link in range(len(mangas)):
+            mangas[link] = mangas[link].split('\n')[0]
+        mymangas.close()
+    return mangas
+
+def GetLinktoMangas(links = []):
+    mangas=[]
+    for link in links:
+        mangas.append(Database.findManga(None,url=link))
+    print(mangas)
+    return mangas
+
+def analizeMymangas(MyMangas = []):
+    tagsCounter = {}
+    for manga in MyMangas:
+        if manga==None:
+            break
+        for tag in manga.getTagsFlags():
+            if not tag == '':
+                if tagsCounter.get(tag) == None:
+                    tagsCounter[tag] = 1
+                else:
+                    tagsCounter[tag] += 1
+    name = []
+    size = []
+    for key in tagsCounter:
+        name.append(key)
+        size.append(tagsCounter[key])
+    # plt.pie(size, labels=name)
+    # plt.show()
+
+    return tagsCounter
+
+def calcPonctuations(MyTags = []):
+    
+    pontuations = []
+
+    for manga in Database.MangaList:
+        ponto = 0
+        for tag in manga.getTagsFlags():
+            if not tag == '':
+                if not MyTags.get(tag) == None:
+                    ponto += MyTags[tag]
+                else:
+                    ponto += 1
+        pontuations.append((manga,ponto))
+    return pontuations
+
+#AnlizeTags()
+# MyTags=analizeMymangas(GetLinktoMangas(LoadMymangas()))
+# Ponctuations = calcPonctuations(MyTags)
+# Ordened = sorted(Ponctuations,key=lambda manga: manga[1])
+
+# #Os Melhores 50 Mangas
+# The_best = 50
+
+# with open("result.csv",'w') as out:
+#     out.write("{link},{nota}\n".format(link="LINK",nota="PONTUAÇÃO"))
+#     for best in Ordened[len(Ordened)-The_best:len(Ordened)]:
+#         out.write("{link},{nota}\n".format(link=best[0].link,nota=best[1]))
+# out.close()
+
+#Database.ReinterpretClass()
+#getPages()
+
+from flask import Flask,jsonify,render_template,request
+
+
+app = Flask('flaskapp', static_url_path='/', static_folder='public')
+
+@app.route("/gen",methods=['POST'])
+def gen():
+    return None
+    pass
+
+@app.route("/getList",methods=['GET'])
+def getList():
+    mangas = []
+    for manga in Database.MangaList[1:]:
+        flags = []
+
+        for key in manga.getTagsFlags():
+            if len(key)>1:
+                flags.append(key)
+        mangas.append({"name":manga.name,"img":manga.img,"link":manga.link,"flags":flags})
+    return jsonify(mangas)
+
+@app.route("/proclink",methods=['POST'])
+def ProcLink():
+    content = request.get_json()
+    mangas = []
+    for manga in [syncLink(content['link'])]:
+        flags = []
+        for key in manga.getTagsFlags():
+            if len(key)>1:
+                flags.append(key)
+        mangas.append({"name":manga.name,"img":manga.img,"link":manga.link,"flags":flags,'description':manga.description})
+    return jsonify(mangas)
+
+@app.route("/analize",methods=['POST'])
+def Analize():
+    content = request.get_json()
+    mangas = []
+    MyTags=analizeMymangas(GetLinktoMangas(content['links']))
+    Ponctuations = calcPonctuations(MyTags)
+    Ordened = sorted(Ponctuations,key=lambda manga: manga[1])
+    for best in Ordened[len(Ordened)-100:len(Ordened)]:
+        mangas.append({"link":best[0].link,"pontuation":best[1]})
+    return jsonify(mangas)
+
+@app.route("/",methods=['GET'])
+def index():
+    return render_template('index.html')
+
+app.run(debug=False)

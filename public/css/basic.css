@@ -1,0 +1,19 @@
+.Manga_Block {
+    width: 31%;
+    height: 200px;
+}
+
+.Manga_Block:hover {
+    background-color: aqua;
+}
+.Selected .Manga_Block{
+    width: 23%;
+}
+.ResultsView .Manga_Block {
+    height: 500px;
+    width: 31%;
+}
+.imgsize {
+    width: 100%;
+    height: 60%;
+}

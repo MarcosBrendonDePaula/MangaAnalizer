@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/css/basic.css">
+		<script src="/js/jquery.min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+        <script src="/js/bootstrap.min.js" defer></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+		
+		<script src="/js/Myjs.js" defer></script>
+		<script src="/js/cookiefunctions.js" defer></script>
+
+        <title>Find My Mangas</title>
+	</head>
+	<body>
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+			 	<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title d-flex justify-content-between" style="width: 100%;">
+							<h5 id="exampleModalLabel">Select Manga</h5>
+							<!-- <div>
+								<span>Max:</span>
+								<input type="range" class="input">
+							</div> -->
+							<input class="find_field" type="text" onchange="find_text_change()" placeholder="Nome ou Link">
+						</div>
+						
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+				  		</button>
+					</div>
+				<div class="modal-body Mangas d-flex flex-wrap justify-content-center" style="overflow-y: auto;">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+			  </div>
+			</div>
+		</div>
+		<div class="modal fade bd-example-modal-sm" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModal" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+			  	<div class="modal-content ">
+					<div class="ResultsView d-flex flex-wrap" style="width: 100%;">
+
+					</div>
+			  	</div>
+			</div>
+		</div>
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-12 m-2">
+					<div class="float-right">
+						<button onclick="Render()" disabled type="button" class="btn btn-primary addMangas" data-toggle="modal" data-target="#exampleModal">
+							<i class="bi bi-plus-square"></i> ADICIONAR
+						</button>
+						
+						<button type="button" onclick="Analize()" class="btn btn-primary Analizar_Btn">
+							<i class="bi bi-arrow-right-square-fill"></i> ANALIZAR
+						</button>
+
+					</div>
+				</div>
+				<div class="mt-1 col-12">
+					<div class="Selected d-flex flex-wrap" style="overflow-y: auto;">
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
