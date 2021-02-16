@@ -1,9 +1,9 @@
-import os.path
+import os
 import requests
 import time
 import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
-
+port = int(os.environ.get('PORT', 5000))
 from MangasDatabase.DB import *
 
 Database = DB.getDB()
@@ -253,4 +253,4 @@ def Analize():
 def index():
     return render_template('index.html')
 
-app.run(debug=False)
+app.run(debug=False,port=port)
