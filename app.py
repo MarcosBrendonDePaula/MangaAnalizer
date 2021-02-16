@@ -183,7 +183,7 @@ def calcPonctuations(MyTags = []):
                 if not MyTags.get(tag) == None:
                     ponto += MyTags[tag]
                 else:
-                    ponto += 1
+                    ponto += 0.5
         pontuations.append((manga,ponto))
     return pontuations
 
