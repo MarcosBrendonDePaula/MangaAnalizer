@@ -3,7 +3,7 @@ import requests
 import time
 import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
-port = int(os.environ.get('PORT', 5000))
+
 from MangasDatabase.DB import *
 
 Database = DB.getDB()
@@ -252,5 +252,6 @@ def Analize():
 @app.route("/",methods=['GET'])
 def index():
     return render_template('index.html')
-
-app.run(debug=False,port=port)
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0',port=port)
