@@ -312,7 +312,7 @@ function Analize() {
                     "container": "Graphic"
                 }
             }
-			document.querySelector(".Graphic").innerHTML=""
+			document.querySelector("#Graphic").innerHTML=""
             var chart = anychart.fromJson(JsonChart);
             chart.draw();
 
