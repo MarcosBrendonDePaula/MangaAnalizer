@@ -127,12 +127,6 @@ function NewA(classList_=[],Children=[],text="",href="") {
     return obj
 }
 
-function AddAnime(id) {
-    Vars.SelectedMangas.push(id)
-    setCookie("MangaAnalizer",JSON.stringify(Vars.SelectedMangas),30)
-    RenderSelected()
-}
-
 function NewCard(classList_=[],Children=[],image="",name="", description="",id=0,auto_event = true){
     // let dropdown = NewButton(['btn','btn-info','dropdown-toggle'],[],undefined,"Description")
     // dropdown.setAttribute('data-toggle',"dropdown")
@@ -148,7 +142,7 @@ function NewCard(classList_=[],Children=[],image="",name="", description="",id=0
         // ])
     ])
     if(auto_event)
-        obj.setAttribute('onclick',`AddAnime(${id})`)
+        obj.setAttribute('onclick',`AddAnime(event,${id})`)
     // obj.addEventListener('click',AddAnime)
 
     AppChildren(obj,Children)
@@ -185,6 +179,19 @@ var Vars = {
         }
         return null
     }
+}
+
+function AddAnime(event,id) {
+    let pai = event.target
+    if(pai.nodeName=="H5") {
+        pai = pai.parentNode.parentNode
+    }else
+    pai = pai.parentNode
+    pai.style.backgroundColor = "blue"
+    console.log(pai)
+    Vars.SelectedMangas.push(id)
+    setCookie("MangaAnalizer",JSON.stringify(Vars.SelectedMangas),30)
+    RenderSelected()
 }
 
 function find(name="") {
