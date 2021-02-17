@@ -212,19 +212,23 @@ function find(name="") {
     }
 
     if(!found && (name.search("https://")>=0 || name.search("http://")>=0)) {
-        alert("O link será processado pelo servidor")
-        $.ajax({
-            type: 'POST',
-            url: '/proclink',
-            data: JSON.stringify({link:name}),
-            success: function(json) { 
-                Vars.Status = "OK"
-                Vars.Mangas.push(json[0])
-                Render([Vars.Mangas.length-1])
-            },
-            contentType: "application/json",
-            dataType: 'json'
-        });
+        if(name.search("unionmangas.top")>=0){
+            alert("O link será processado pelo servidor")
+            $.ajax({
+                type: 'POST',
+                url: '/proclink',
+                data: JSON.stringify({link:name}),
+                success: function(json) { 
+                    Vars.Status = "OK"
+                    Vars.Mangas.push(json[0])
+                    Render([Vars.Mangas.length-1])
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            });
+        }else{
+            alert("Opa Patraum encontramos um equivoco, o Link Precisa ser da unionmangas, https://unionmangas.top/")
+        }
     }
     Render(positions)
 }
@@ -289,13 +293,31 @@ function Analize() {
         url: '/analize',
         data: JSON.stringify({links:links}),
         success: function(json) { 
-            console.log(json)
             $('#resultModal').modal('show')
             let Results = document.querySelector(".ResultsView")
             Results.innerHTML=""
-            for(let i of json.reverse()){
+            console.log(json.MyTags)
+            var chartData = []
+
+            for(let i in json.MyTags) {
+                chartData.push({
+                    "x":i,
+                    "value":`${json.MyTags[i]}`,
+                })
+            }
+
+            var JsonChart = {
+                "chart": {
+                    "type": "pie",
+                    "data": chartData,
+                    "container": "Graphic"
+                }
+            }
+            var chart = anychart.fromJson(JsonChart);
+            chart.draw();
+
+            for(let i of json.mangas.reverse()){
                 let manga = Vars.linktomanga(i.link)
-                console.log(manga)
                 Results.appendChild(NewCardResult([],[],manga.img,manga.name,i.pontuation,manga.link))
             }
         },

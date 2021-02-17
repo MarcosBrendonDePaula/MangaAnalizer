@@ -148,7 +148,6 @@ def GetLinktoMangas(links = []):
     mangas=[]
     for link in links:
         mangas.append(Database.findManga(None,url=link))
-    print(mangas)
     return mangas
 
 def analizeMymangas(MyMangas = []):
@@ -247,7 +246,7 @@ def Analize():
     Ordened = sorted(Ponctuations,key=lambda manga: manga[1])
     for best in Ordened[len(Ordened)-100:len(Ordened)]:
         mangas.append({"link":best[0].link,"pontuation":best[1]})
-    return jsonify(mangas)
+    return jsonify({'mangas':mangas,'MyTags':MyTags})
 
 @app.route("/",methods=['GET'])
 def index():
