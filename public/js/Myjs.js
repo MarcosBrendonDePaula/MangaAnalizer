@@ -296,7 +296,6 @@ function Analize() {
             $('#resultModal').modal('show')
             let Results = document.querySelector(".ResultsView")
             Results.innerHTML=""
-            console.log(json.MyTags)
             var chartData = []
 
             for(let i in json.MyTags) {
