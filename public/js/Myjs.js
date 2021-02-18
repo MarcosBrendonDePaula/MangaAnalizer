@@ -187,9 +187,15 @@ function AddAnime(event,id) {
         pai = pai.parentNode.parentNode
     }else
     pai = pai.parentNode
-    pai.style.backgroundColor = "blue"
-    console.log(pai)
-    Vars.SelectedMangas.push(id)
+    if(pai.classList.contains("Mangas"))
+        return
+    let h5 = NewH5([],[],"ADICIONADO!")
+    h5.style.color = "red"
+    pai.appendChild(h5)
+    pai.classList.add("bg-light")
+    pai.classList.add("isSelected")
+    if(Vars.SelectedMangas.indexOf(id)==-1)
+        Vars.SelectedMangas.push(id)
     setCookie("MangaAnalizer",JSON.stringify(Vars.SelectedMangas),30)
     RenderSelected()
 }
@@ -237,6 +243,7 @@ let find_field = document.querySelector('.find_field')
 function find_text_change() {
     find(find_field.value)
 }
+
 function getDegfaultVector() {
     let positions = []
     let init = Math.floor(Math.random()*(Vars.Mangas.length-Vars.config_Page.Max_in_Page))
@@ -254,8 +261,13 @@ function Render(list=getDegfaultVector()) {
     MangasList.innerHTML=""
     for(let i of list) {
         let card = NewCard(["col-10","col-sm-5","col-md-5","col-lg-3"],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i)
-        if(Vars.SelectedMangas.indexOf(i)>=0)
-            card.style.backgroundColor = "blue"; 
+        if(Vars.SelectedMangas.indexOf(i)>=0){
+            card.classList.add("isSelected")
+            card.classList.add("bg-light")
+            let h5 = NewH5([],[],"ADICIONADO!")
+            h5.style.color = "red"
+            card.appendChild(h5)
+        }
         MangasList.appendChild(card)
     }
 }
