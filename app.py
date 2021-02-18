@@ -166,8 +166,6 @@ def analizeMymangas(MyMangas = []):
     for key in tagsCounter:
         name.append(key)
         size.append(tagsCounter[key])
-    # plt.pie(size, labels=name)
-    # plt.show()
 
     return tagsCounter
 
@@ -186,22 +184,6 @@ def calcPonctuations(MyTags = []):
         pontuations.append((manga,ponto))
     return pontuations
 
-#AnlizeTags()
-# MyTags=analizeMymangas(GetLinktoMangas(LoadMymangas()))
-# Ponctuations = calcPonctuations(MyTags)
-# Ordened = sorted(Ponctuations,key=lambda manga: manga[1])
-
-# #Os Melhores 50 Mangas
-# The_best = 50
-
-# with open("result.csv",'w') as out:
-#     out.write("{link},{nota}\n".format(link="LINK",nota="PONTUAÇÃO"))
-#     for best in Ordened[len(Ordened)-The_best:len(Ordened)]:
-#         out.write("{link},{nota}\n".format(link=best[0].link,nota=best[1]))
-# out.close()
-
-#Database.ReinterpretClass()
-#getPages()
 
 from flask import Flask,jsonify,render_template,request
 
@@ -253,4 +235,4 @@ def index():
     return render_template('index.html')
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0',port=port)
+    app.run(host='0.0.0.0',debug=False,port=port)

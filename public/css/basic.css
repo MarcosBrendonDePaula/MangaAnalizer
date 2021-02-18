@@ -1,17 +1,23 @@
 .Manga_Block {
     width: 31%;
-    height: 200px;
+    height: 400px;
+}
+
+.dinamic_font{
+    font-size: 30px;
+    font-size: 1.2em;
 }
 
 .Manga_Block:hover {
     background-color: aqua;
 }
+
 .Selected .Manga_Block{
     width: 23%;
+    height: 400px;
 }
 .ResultsView .Manga_Block {
     height: 500px;
-    width: 31%;
 }
 .imgsize {
     width: 100%;

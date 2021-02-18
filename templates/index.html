@@ -15,6 +15,15 @@
         <title>Find My Mangas</title>
 	</head>
 	<body>
+		<nav class="navbar navbar-dark bg-dark fixed-top">
+			<button onclick="Render()" disabled type="button" class="btn btn-primary addMangas" data-toggle="modal" data-target="#exampleModal">
+				<i class="bi bi-plus-square"></i> ADICIONAR
+			</button>
+			
+			<button type="button" onclick="Analize()" class="btn btn-primary Analizar_Btn">
+				<i class="bi bi-arrow-right-square-fill"></i> ANALIZAR
+			</button>
+		</nav>
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 			 	<div class="modal-content">
@@ -27,17 +36,21 @@
 							</div> -->
 							<input class="find_field" type="text" onchange="find_text_change()" placeholder="Nome ou Link">
 						</div>
-						
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 				  		</button>
 					</div>
-				<div class="modal-body Mangas d-flex flex-wrap justify-content-center" style="overflow-y: auto;">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-			  </div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="Mangas row justify-content-center">
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="modal fade bd-example-modal-sm" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModal" aria-hidden="true">
@@ -46,28 +59,23 @@
 					<div id="Graphic" class="container" style="width: 50%;">
 
 					</div>
-					<div class="ResultsView d-flex flex-wrap" style="width: 100%;">
 
+					<div class="container-fluid">
+						<div class="ResultsView row justify-content-center">
+
+						</div>
 					</div>
+
 			  	</div>
 			</div>
 		</div>
-		<div class="container mt-4">
+		<div class="container mt-5">
 			<div class="row">
-				<div class="col-12 m-2">
-					<div class="float-right">
-						<button onclick="Render()" disabled type="button" class="btn btn-primary addMangas" data-toggle="modal" data-target="#exampleModal">
-							<i class="bi bi-plus-square"></i> ADICIONAR
-						</button>
-						
-						<button type="button" onclick="Analize()" class="btn btn-primary Analizar_Btn">
-							<i class="bi bi-arrow-right-square-fill"></i> ANALIZAR
-						</button>
-
-					</div>
-				</div>
 				<div class="mt-1 col-12">
-					<div class="Selected d-flex flex-wrap" style="overflow-y: auto;">
+					<div class="container-fluid">
+						<div class="Selected row justify-content-center">
+
+						</div>
 					</div>
 				</div>
 			</div>

@@ -132,9 +132,9 @@ function NewCard(classList_=[],Children=[],image="",name="", description="",id=0
     // dropdown.setAttribute('data-toggle',"dropdown")
 
     let obj = NewDiv(['card','Manga_Block','m-2','border-primary'],[
-        NewImg(['card-img-top','imgsize'],[],image),
+        NewImg(['card-img-top','imgsize',"mt-1"],[],image),
         NewDiv(['card-body'],[
-            NewH5(['card-title'],[],name),
+            NewH5(['card-title',"dinamic_font"],[],name),
         ]),
         // dropdown,
         // NewDiv([],[
@@ -151,12 +151,12 @@ function NewCard(classList_=[],Children=[],image="",name="", description="",id=0
 }
 
 function NewCardResult(classList_=[],Children=[],image="",name="", result=0,link="") {
-    let obj = NewDiv(['card','Manga_Block','m-2','border-primary'],[
-        NewImg(['card-img-top','imgsize'],[],image),
+    let obj = NewDiv(['card','Manga_Block','mt-1','border-primary'],[
+        NewImg(['card-img-top','imgsize',"mt-1"],[],image),
         NewDiv(['card-body'],[
-            NewH5(['card-title'],[],name),
-            NewH5([],[],"Pontuação:"+result),
-            NewA([],[],link,link)
+            NewH5(['card-title',"dinamic_font"],[],name),
+            NewH5(["dinamic_font"],[],"Pontuação:"+result),
+            NewA([],[],"Ir para a página",link)
         ]),
     ])
     AppChildren(obj,Children)
@@ -237,26 +237,26 @@ let find_field = document.querySelector('.find_field')
 function find_text_change() {
     find(find_field.value)
 }
-
-function Render(list=undefined) {
+function getDegfaultVector() {
+    let positions = []
+    let init = Math.floor(Math.random()*(Vars.Mangas.length-Vars.config_Page.Max_in_Page))
+    if(init<0) {
+        init = 0
+    }
+    let max = init+Vars.config_Page.Max_in_Page;
+    for(let i=init;i<max;i++) {
+        positions.push(i)
+    }
+    return positions
+}
+function Render(list=getDegfaultVector()) {
     let MangasList = document.querySelector('.Mangas')
-    console.log(list)
     MangasList.innerHTML=""
-    if (list!=undefined) {
-        for(let i of list) {
-            let card = NewCard([],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i)
-            if(Vars.SelectedMangas.indexOf(i)>=0)
-                card.style.backgroundColor = "blue"; 
-            MangasList.appendChild(card)
-        }
-    } else {
-        for(let i=0; i < Vars.config_Page.Max_in_Page; i++) {
-            // MangasList.appendChild(NewCard([],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i))
-            let card = NewCard([],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i)
-            if(Vars.SelectedMangas.indexOf(i)>=0)
-                card.style.backgroundColor = "blue"; 
-            MangasList.appendChild(card)
-        }
+    for(let i of list) {
+        let card = NewCard(["col-10","col-sm-5","col-md-5","col-lg-3"],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i)
+        if(Vars.SelectedMangas.indexOf(i)>=0)
+            card.style.backgroundColor = "blue"; 
+        MangasList.appendChild(card)
     }
 }
 
@@ -276,7 +276,7 @@ function RenderSelected() {
     let SelectedView = document.querySelector('.Selected')
     SelectedView.innerHTML=""
     for(let i of Vars.SelectedMangas) {
-        let card = NewCard([],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
+        let card = NewCard(["col-10","col-sm-5","col-md-3","col-lg-2"],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
         card.setAttribute('data-id',i+"")
         card.addEventListener('click',deleteSelectManga.bind(null,event,i))
         SelectedView.appendChild(card)
@@ -318,7 +318,7 @@ function Analize() {
 
             for(let i of json.mangas.reverse()){
                 let manga = Vars.linktomanga(i.link)
-                Results.appendChild(NewCardResult([],[],manga.img,manga.name,i.pontuation,manga.link))
+                Results.appendChild(NewCardResult(["col-10","col-sm-5","col-md-5","col-lg-3","m-3"],[],manga.img,manga.name,i.pontuation,manga.link))
             }
         },
         contentType: "application/json",
