@@ -127,14 +127,14 @@ function NewA(classList_=[],Children=[],text="",href="") {
     return obj
 }
 
-function NewCard(classList_=[],Children=[],image="",name="", description="",id=0,auto_event = true){
+function NewCard(classList_=[],Children=[],image="",name="", description="",id=0,auto_event = true,link=undefined){
     // let dropdown = NewButton(['btn','btn-info','dropdown-toggle'],[],undefined,"Description")
     // dropdown.setAttribute('data-toggle',"dropdown")
 
     let obj = NewDiv(['card','Manga_Block','m-2','border-primary'],[
         NewImg(['card-img-top','imgsize',"mt-1"],[],image),
         NewDiv(['card-body'],[
-            NewH5(['card-title',"dinamic_font"],[],name),
+            NewH5(['card-title',"dinamic_font"],[],name)
         ]),
         // dropdown,
         // NewDiv([],[

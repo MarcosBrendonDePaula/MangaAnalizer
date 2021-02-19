@@ -25,15 +25,11 @@
 			</button>
 		</nav>
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
 			 	<div class="modal-content">
 					<div class="modal-header">
 						<div class="modal-title d-flex justify-content-between" style="width: 100%;">
 							<h5 id="exampleModalLabel">Select Manga</h5>
-							<!-- <div>
-								<span>Max:</span>
-								<input type="range" class="input">
-							</div> -->
 							<input class="find_field" type="text" onkeyup="find_text_change()" onchange="find_text_change()" placeholder="Nome ou Link">
 						</div>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -54,18 +50,27 @@
 			</div>
 		</div>
 		<div class="modal fade bd-example-modal-sm" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModal" aria-hidden="true">
-			<div class="modal-dialog modal-xl">
-			  	<div class="modal-content ">
-					<div id="Graphic" class="container" style="width: 50%;">
-
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title d-flex justify-content-between" style="width: 100%;">
+							<h5 id="exampleModalLabel">Result</h5>
+						</div>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+				  		</button>
 					</div>
-
-					<div class="container-fluid">
-						<div class="ResultsView row justify-content-center">
+					<div class="modal-body">
+						<div id="Graphic" class="container" style="width: 50%;">
 
 						</div>
+	
+						<div class="container-fluid">
+							<div class="ResultsView row justify-content-center">
+	
+							</div>
+						</div>
 					</div>
-
 			  	</div>
 			</div>
 		</div>
@@ -74,7 +79,7 @@
 				<div class="mt-1 col-12">
 					<div class="container-fluid">
 						<div class="Selected row justify-content-center">
-							<img src="/image/load.gif" style="width: 25%;height: 25%;">
+							<img src="/image/load.gif" style="width: 50%;height: 50%;">
 						</div>
 					</div>
 				</div>
