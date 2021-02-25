@@ -155,7 +155,7 @@ function NewCardResult(classList_=[],Children=[],image="",name="", result=0,link
         NewImg(['card-img-top','imgsize',"mt-1"],[],image),
         NewDiv(['card-body'],[
             NewH5(['card-title',"dinamic_font"],[],name),
-            NewH5(["dinamic_font"],[],"Pontuação:"+result),
+            NewH5(["dinamic_font"],[],"PTS:"+result),
             NewA([],[],"Ir para a página",link)
         ]),
     ])
