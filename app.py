@@ -113,7 +113,7 @@ def getPages():
         print(it)
     pass
 
-getPages()
+# getPages()
 def AnlizeTags() :
     tagsCounter = {}
     for manga in Database.MangaList:
