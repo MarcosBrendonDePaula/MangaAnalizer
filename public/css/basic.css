@@ -2,6 +2,11 @@
     width: 31%;
     height: 400px;
 }
+
+.hidden{
+    display: none;
+}
+
 .isSelected{
     box-shadow:
     1px 1px #939aa0,

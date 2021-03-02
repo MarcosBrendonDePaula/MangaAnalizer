@@ -334,11 +334,22 @@ function Analize() {
                     "value":`${json.MyTags[i]}`,
                 })
             }
-
+            chartData.sort(function (a, b) {
+                if (a.value > b.value) {
+                  return 1;
+                }
+                if (a.value < b.value) {
+                  return -1;
+                }
+                // a must be equal to b
+                return 0;
+            })
             var JsonChart = {
                 "chart": {
-                    "type": "pie",
-                    "data": chartData,
+                    "type": "bar",
+                    "series":[{
+                        "data": chartData,
+                    }],
                     "container": "Graphic"
                 }
             }
