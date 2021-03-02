@@ -126,6 +126,16 @@ function NewA(classList_=[],Children=[],text="",href="") {
     AppClass(obj,classList_)
     return obj
 }
+{/*  */}
+function NewRemoveBtn(classList_=[],Children=[],id=0) {
+    let obj = NewButton(["btn","btn-outline-danger"],[])
+    obj.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"></path></svg>REMOVER`
+    obj.type = "button"
+    AppChildren(obj,Children)
+    AppClass(obj,classList_)
+    obj.addEventListener('click',deleteSelectManga.bind(null,event,id))
+    return obj
+}
 
 function NewCard(classList_=[],Children=[],image="",name="", description="",id=0,auto_event = true,link=undefined){
     // let dropdown = NewButton(['btn','btn-info','dropdown-toggle'],[],undefined,"Description")
@@ -291,9 +301,13 @@ function RenderSelected() {
     let SelectedView = document.querySelector('.Selected')
     SelectedView.innerHTML=""
     for(let i of Vars.SelectedMangas) {
-        let card = NewCard(["col-10","col-sm-5","col-md-3","col-lg-2"],[],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
+        let A = NewA([],[],"Ir para a página",Vars.Mangas[i].link)
+        A.target = "_blank"
+        A.rel = "noopener noreferrer"
+        let card = NewCard(["col-10","col-sm-5","col-md-3","col-lg-2"],[NewRemoveBtn([],[],i)],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
+        card.querySelector(".card-body").appendChild(A)
         card.setAttribute('data-id',i+"")
-        card.addEventListener('click',deleteSelectManga.bind(null,event,i))
+        // card.addEventListener('click',deleteSelectManga.bind(null,event,i))
         SelectedView.appendChild(card)
     }
 }
