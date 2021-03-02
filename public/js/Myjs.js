@@ -305,7 +305,7 @@ function RenderSelected() {
         let A = NewA([],[],"Ir para a página",Vars.Mangas[i].link)
         A.target = "_blank"
         A.rel = "noopener noreferrer"
-        let card = NewCard(["col-10","col-sm-5","col-md-3","col-lg-2"],[NewRemoveBtn([],[],i)],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
+        let card = NewCard(["col-10","col-sm-5","col-md-3","col-lg-2"],[NewRemoveBtn(["m-1"],[],i)],Vars.Mangas[i].img,Vars.Mangas[i].name,Vars.Mangas[i].description,i,false)
         card.querySelector(".card-body").appendChild(A)
         card.setAttribute('data-id',i+"")
         // card.addEventListener('click',deleteSelectManga.bind(null,event,i))
