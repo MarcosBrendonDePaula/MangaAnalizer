@@ -151,12 +151,15 @@ function NewCard(classList_=[],Children=[],image="",name="", description="",id=0
 }
 
 function NewCardResult(classList_=[],Children=[],image="",name="", result=0,link="") {
+    let A = NewA([],[],"Ir para a página",link)
+    A.target = "_blank"
+    A.rel = "noopener noreferrer"
     let obj = NewDiv(['card','Manga_Block','mt-1','border-primary'],[
         NewImg(['card-img-top','imgsize',"mt-1"],[],image),
         NewDiv(['card-body'],[
             NewH5(['card-title',"dinamic_font"],[],name),
             NewH5(["dinamic_font"],[],"PTS:"+result),
-            NewA([],[],"Ir para a página",link)
+            A
         ]),
     ])
     AppChildren(obj,Children)

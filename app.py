@@ -113,7 +113,6 @@ def getPages():
         print(it)
     pass
 
-# getPages()
 def AnlizeTags() :
     tagsCounter = {}
     for manga in Database.MangaList:
@@ -185,7 +184,7 @@ def calcPonctuations(MyTags = []):
         pontuations.append((manga,ponto))
     return pontuations
 
-
+#getPages()
 from flask import Flask,jsonify,render_template,request
 
 
