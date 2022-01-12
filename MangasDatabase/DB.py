@@ -36,7 +36,6 @@ class DB:
             listFile = None
         
         if listFile == None:
-            listFile.close()
             save_object(self.MangaList,DB.storage+"Mangas"+DB.formate)
         else:
             listFile.close()

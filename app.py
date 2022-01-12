@@ -1,5 +1,5 @@
 import os
-import requests
+import cloudscraper
 import time
 import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
@@ -7,15 +7,13 @@ from bs4 import BeautifulSoup
 from MangasDatabase.DB import *
 
 Database = DB.getDB()
-headers = requests.utils.default_headers()
-headers.update(
-    {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0',
-    }
-)
 
 def syncLink(link=""):
-        session = requests.session()
+        session = cloudscraper.create_scraper(browser={
+            'browser': 'firefox',
+            'platform': 'windows',
+            'mobile': False
+        })
         temp = Database.findManga(url=link)
         if temp == None:
             success = False
@@ -25,7 +23,11 @@ def syncLink(link=""):
                     if sleepTime>15:
                         print("Forced:", link)
                         success=True
-                        session = requests.session()
+                        session = cloudscraper.create_scraper(browser={
+                            'browser': 'firefox',
+                            'platform': 'windows',
+                            'mobile': False
+                        })
                         break
 
                     manga_page = session.get(link, headers=headers)
@@ -55,29 +57,23 @@ def syncLink(link=""):
 
 def getPages():
     unionLink = "https://unionmangas.top/lista-mangas/a-z/{page}/*"
-    MaxPages = 269
+    MaxPages = 317
     ActualPage = 0
-    session = requests.session()
+    session = cloudscraper.create_scraper(browser={
+            'browser': 'firefox',
+            'platform': 'windows',
+            'mobile': False
+        })
     for it in range(ActualPage,MaxPages):
-        ActualPage = session.get(unionLink.format(page=it), headers=headers)
+        ActualPage = session.get(unionLink.format(page=it))
         
         Soup = BeautifulSoup(ActualPage.text, 'html.parser')
         
-        Blocos_manga = Soup.findAll(class_="bloco-manga")
+        Blocos_manga = Soup.findAll(class_="lista-mangas-novos")
         for ActualManga in Blocos_manga:
             name = ActualManga.findAll('a')[1].get_text()
             link = ActualManga.findAll('a')[1]['href']
             temp = Database.findManga(name=name)
-            # Image Update
-            try:
-                if(temp.img == ""):
-                    image = ActualManga.find(class_="img-thumbnail")['src']
-                    print("ImageLink:",image)
-                    temp.img = image
-                    Database.update()
-            except:
-                print('erro ao obter imagem')
-                pass
             if temp == None:
                 success = False
                 sleepTime = 0
@@ -86,10 +82,14 @@ def getPages():
                         if sleepTime>15:
                             print("Forced:", link)
                             success=True
-                            session = requests.session()
+                            session = cloudscraper.create_scraper(browser={
+                                'browser': 'firefox',
+                                'platform': 'windows',
+                                'mobile': False
+                            })
                             break
 
-                        manga_page = session.get(link, headers=headers)
+                        manga_page = session.get(link)
                         print(manga_page.status_code)
 
                         Soup_manga = BeautifulSoup(manga_page.text, 'html.parser')
@@ -100,8 +100,10 @@ def getPages():
                         
                         sinopse = Soup_manga.find(class_="panel-body").get_text()
                         print(link ,name , generos)
-                    
-                        Database.addManga(Manga(sinopse,generos,name,link))
+
+                        image = ActualManga.find(class_="img-thumbnail")['src']
+
+                        Database.addManga(Manga(sinopse,generos,name,link,image))
                         success = True
                     except Exception as e:
                         print("erro:" , e)
