@@ -186,7 +186,7 @@ def calcPonctuations(MyTags = []):
         pontuations.append((manga,ponto))
     return pontuations
 
-#getPages()
+getPages()
 from flask import Flask,jsonify,render_template,request
 
 

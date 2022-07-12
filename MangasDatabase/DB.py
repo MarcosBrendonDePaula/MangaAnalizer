@@ -1,4 +1,4 @@
-import pickle
+import pickle as pickle
 from MangasDatabase.Model import Manga
 
 def save_object(obj, filename):
