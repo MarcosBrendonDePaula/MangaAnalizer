@@ -57,8 +57,8 @@ def syncLink(link=""):
 
 def getPages():
     unionLink = "https://unionmangas.top/lista-mangas/a-z/{page}/*"
-    MaxPages = 317
-    ActualPage = 0
+    MaxPages = 360
+    ActualPage = 358
     session = cloudscraper.create_scraper(browser={
             'browser': 'firefox',
             'platform': 'windows',
@@ -186,7 +186,7 @@ def calcPonctuations(MyTags = []):
         pontuations.append((manga,ponto))
     return pontuations
 
-#getPages()
+getPages()
 from flask import Flask,jsonify,render_template,request
 
 
