@@ -1,7 +1,7 @@
 import os
 import cloudscraper
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup
 
 from MangasDatabase.DB import *
